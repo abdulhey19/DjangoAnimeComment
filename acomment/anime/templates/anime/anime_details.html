@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titles %}
+  {{anime.title}}
+{% endblock  %}
+
+{% block body %}
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="bg-white p-3 widget shadow rounded mb-4">
+        <img src="{{anime.image_cover.url}}" class="img-fluid rounded" alt="{{anime.title}}" />
+        <h1 class="h6 mb-0 mt-3 font-weight-bold text-gray-900">Title</h1>
+        <p>{{anime.title}}</p>
+        <h1 class="h6 mb-0 mt-3 font-weight-bold text-gray-900">Kategoriler</h1>
+        <p>{% for category in categories %}
+                <a class="link-underline-light" href="{% url 'oneCategory' id=category.id %}">{{category.name}}</a> 
+            {% endfor %}</p>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="bg-white info-header shadow rounded mb-4">
+        <div class="row d-flex align-items-center justify-content-between p-3">
+                <div class="col m-b-4 d-flex align-items-center justify-content-between" >
+                    <h3 class="text-gray-900 mb-0 mt-0 font-weight-bold">
+                    {{anime.title}}
+                    </h3>
+                    <div class="float-md-end">
+            
+                        <a href="{% url 'addOrDeleteFavorites' slug=anime.slug %}" class="float-md-end">
+                          {% if favorite %}
+                           <i class="fa-solid fa-heart"></i>
+                          {% else %}
+                           <i class="fa-regular fa-heart"></i>
+                          {% endif %}
+                         </a>
+                  
+                      
+                    </div> 
+                    
+                </div>
+        </div>
+        <div class="row d-flex align-items-center justify-content-between p-3">
+            <ul id="liste" class="nav nav-tabs">
+                <li class="nav-item ">
+                  <a class="nav-link" aria-current="page" href="#">Hikaye</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Yorumlar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Yorum Yap</a>
+                  </li>
+            </ul>
+            <div id="hangisi" class="row">
+                <div class="col" style="display:none">
+                    <p>{{anime.story|safe}}</p>
+                </div>
+                <div class="col" style="display:none">
+                    {% if comments|length > 0 %}
+                      {% for comment in comments %}
+                        <div class="card mt-2">
+                          <div class="card-header">
+                            {% if user.is_authenticated and user.id == comment.username.id %}
+                                  Siz - {{comment.date}}    
+                            {% else %}
+                              {{comment.username.get_full_name}} - {{comment.date}}
+                            {% endif %}
+                            <div class="d-flex align-items-center justify-content-between float-end">
+                              <div class="me-2 d-flex align-items-center justify-content-center">
+                                <div class="me-1">
+                                  <span class="badge text-bg-primary"> {{comment.nLike}} </span>
+                                </div>
+                                
+                                <a href="{% url 'addOrDeleteLike' id=comment.id %}"> 
+                                  {% if user.is_authenticated and likes.nLike %}
+                                    <i class="fa-solid fa-thumbs-up">
+                                  {% else %}
+                                  <i class="fa-regular fa-thumbs-up "></i>
+                                  {% endif %} 
+                                </a>
+                              
+                              </div>
+                              <div class="d-flex align-items-center justify-content-center">
+                                  <a class="ms-1" href="{% url 'addOrDeleteDisLike' id=comment.id %}"> 
+                                    <i class="fa-solid fa-thumbs-down d-none"></i> 
+                                    <i class="fa-regular fa-thumbs-down"></i>
+                                  </a>
+                                <div class="ms-1"><span class="badge text-bg-danger"> {{comment.nDislike}} </span></div>
+                                
+                              </div>
+                              
+                              
+                            </div> 
+                            
+                          </div>
+                          <div class="card-body">
+                            <blockquote class="blockquote mb-0">
+                              <p>{{comment.description|safe}}</p>
+                              
+                            </blockquote>
+                            {% if user.is_authenticated and user.id == comment.username.id %}
+                              <a href="{% url 'updateOneComment' id=comment.id %}" class="btn btn-primary m-1 float-end">Update</a>
+                              <a href="{% url 'deleteOneComment' id=comment.id %}" class="btn btn-danger m-1 float-end">Delete</a>
+                            {% endif %}
+                          </div>
+                        </div>
+                      {% endfor %}
+                    
+                    {% else %}
+                      <div class="text-center mt-3">
+                        Bu animeye henüz yorum yapılmamış...
+                      </div>
+                    {% endif %}
+                </div>
+                <div class="col" style="display:none">
+                  <div class="card">
+                      <div class="card-body">
+                        <div class="mb-3">
+                          {% if user.is_authenticated %}
+                            <form action="{% url "addComment" slug=anime.slug %}" class="form" method="POST">
+                              {% csrf_token %}
+                              <textarea name="comment" id="comment" class="form-control" placeholder="Birşeyler yazın..." style="resize:none;"></textarea>
+                              
+                              <button class="btn btn-primary mt-3 float-end">Enter</button>
+                            </form>
+                          {% else %}
+                            <div class="text-center mt-5">Yorum yapabilmek için giriş <a href="{% url 'loginUser' %}">yapmalısınız...</a> </div>
+                          {% endif %}
+                          
+                          
+                        </div>
+                      </div>
+                  </div> 
+                </div>
+              </div>
+            </div>
+            
+
+           
+             
+        </div> 
+      </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block js_files %}
+    <script src="{% static "js/tab.js" %}"></script>
+{% endblock  %}

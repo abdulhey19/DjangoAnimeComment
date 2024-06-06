@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block titles %}
+    {{category}} 
+{% endblock  %}
+
+{% block body %}
+<div class="container mb-3">
+    <div class="row">
+        {% if animes|length > 0 %}
+            {% for anime in animes  %}
+            <div class="col-md-3 mb-3">
+                <div class="card" style="height:450px;">
+                    <img src="{{anime.image_cover.url}}" height="250px" class="card-img-top" alt="{{anime.title}}">
+                    <div class="card-body">
+                    <h5 class="card-title">{{anime.title}}</h5>
+                    <p class="card-text">{{anime.story|safe|truncatewords:7}}</p>
+                    <a href="{% url 'getAnime' slug=anime.slug %}" class="btn btn-primary float-md-end ">Sayfasına Git</a>
+                    </div>
+                </div>     
+            </div>
+        {% endfor %}
+        {% else %}
+        <div class="text-center">
+            Bu kategoride henüz bir anime bulunmuyor...
+        </div>
+        
+        {% endif %}
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

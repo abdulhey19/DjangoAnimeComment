@@ -1,0 +1,51 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <img src="{% static 'img/konoha-icon.jpg' %}" class="img-img-thumbnail" alt="logo" width="50">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url "index" %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'top10AnimeList' %}">Top 10</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'getAllCategories' %}">Kategoriler</a>
+          </li>
+        </ul>
+        <form action="{% url 'showSearchResults' %}" class="d-flex" role="search" method="POST">
+          {% csrf_token %}
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
+          <button class="btn btn-outline-primary" type="submit">Search</button>
+        </form>
+        <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
+            {% if user.is_authenticated %}
+            <li class="nav-item dropdown me-3">
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  {{user.get_full_name}} 
+                </button>
+                <ul class="dropdown-menu dropdown">
+                  <li><a class="dropdown-item" href="{% url 'showProfile' %}">Profil</a></li>
+                  <li> <a class="dropdown-item" href="{% url 'logoutUser' %}">Logout</a></li>
+                </ul>
+              </div>
+            </li>        
+            {% else %}
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'loginUser' %}">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'registerUser' %}">Register</a>
+              </li>
+            {% endif %}
+    
+          
+            
+           
+        </ul>
+      </div>
+    </div>
+  </nav>

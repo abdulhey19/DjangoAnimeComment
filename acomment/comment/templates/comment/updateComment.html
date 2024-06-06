@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+{% block titles %} Update Comment {% endblock  %}
+{% block body %}
+
+<div class="container-fluid ">
+    <div class="row">
+        <div class="col-md-3 my-1">
+            {% include "partials/_sidebar.html" %}
+        </div>
+        <div class="col-md-8 m-2">
+            <form class="form" action="" method="POST">
+                {% csrf_token %}
+                <div class="form-control">
+                    {{form.as_p}}
+                </div>
+                
+            <button type="submit" class="btn btn-primary float-md-end mt-2">Enter</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock  %}
+
+{% block js_files %}
+    <script src="{% static 'js/sidebar.js' %}"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script> 
+{% endblock  %}

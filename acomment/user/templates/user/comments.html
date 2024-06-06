@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+{% block titles %}My Comments{% endblock %}
+{% block body %}
+    <div class="container-fluid my-3">
+        <div class="row">
+            <div class="col-md-3 my-1">
+                {% include "partials/_sidebar.html" %}
+                  
+            </div>
+            <div class="col-md-9">
+                {% if comments|length > 0 %}
+                    {% for comment in comments  %}
+                        <div class="card mb-2">
+                            <div class="card-header">
+                            <span class="h6">{{comment.anime}}</span>  animesi için {{comment.date}} tarihinde
+                            </div>
+                            <div class="card-body">
+                            <p class="card-text">{{comment.description}}</p>
+                            
+                            <a href="{% url 'deleteOneComment' id=comment.id %}" class="btn btn-danger mx-1 float-md-end">Delete</a>
+                            <a href="{% url 'updateOneComment' id=comment.id %}" class="btn btn-primary  float-md-end">Update</a>
+                            </div>
+                        </div>
+                    
+                    
+                    {% endfor %}
+                {% else %}
+
+                        <div class="text-center mt-5">Hiç yorumunuz bulunmuyor...</div>
+                
+                {% endif %}
+
+            </div>   
+        </div>
+
+    </div>
+
+
+
+
+
+{% endblock  %}
+
+
+{% block js_files %}
+    <script src="{% static 'js/sidebar.js' %}"></script>
+{% endblock  %}

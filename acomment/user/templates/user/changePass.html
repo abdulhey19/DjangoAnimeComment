@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titles %}Change Password{% endblock %}
+
+
+{% block body %}
+    <div class="container-fluid ">
+            <div class="row">
+                <div class="col-md-3 my-1">
+                    {% include "partials/_sidebar.html" %}
+                </div>
+                <div class="col-md-4 my-5">
+                    <form class="form" action="" method="POST">
+                        {% csrf_token %}
+                        {% for field in form  %}
+
+                            <div class="form-group mb-3">
+                                {{field.label_tag}}
+                                {{field}}
+                            </div> 
+                        
+                        {% endfor %}
+                        
+                    <button type="submit" class="btn btn-primary float-md-end">Enter</button>
+                    </form>
+                </div>
+            </div>
+    </div>
+{% endblock  %}
+
+
+
+{% block js_files %}
+    <script src="{% static 'js/sidebar.js' %}"></script>
+{% endblock  %}

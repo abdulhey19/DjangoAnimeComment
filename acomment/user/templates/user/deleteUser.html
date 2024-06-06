@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+{% block titles %} Delete Profil {% endblock  %} 
+{% block body %}
+    <div class="row">
+        <div class="col-md-3 my-1">
+            {% include "partials/_sidebar.html" %}
+            
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                
+                <div class="col-md-6 m-auto">
+                    <div class="text-center my-3">
+                        Profilinize silmek istediğinizden emin misiniz?
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center mb-1">
+                        <form class="form" action="" method="POST">
+                            {% csrf_token %}
+        
+                            <button type="submit" class="btn btn-danger">Evet</button>
+                            <a href="{% url 'index' %}" class="btn btn-warning">İptal</a>
+                        
+                        </form> 
+                    </div>
+                   
+                </div>
+               
+             
+            </div>    
+        </div>
+    </div>
+
+{% endblock body %}
+
+
+{% block js_files %}
+    <script src="{% static 'js/sidebar.js' %}"></script>
+{% endblock  %}
